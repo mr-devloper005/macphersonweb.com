@@ -2,7 +2,7 @@ import type { SiteRecipe } from '@/design/factory/recipe-types'
 
 export const SITE_RECIPE: SiteRecipe = {
   productFamily: 'curation',
-  themePack: 'curation-warm',
+  themePack: 'curation-library',
   homepageTemplate: 'article-home',
   navbarTemplate: 'editorial-bar',
   footerTemplate: 'columns-footer',
