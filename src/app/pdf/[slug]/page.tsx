@@ -5,6 +5,7 @@ import { Footer } from "@/components/shared/footer";
 import { NavbarShell } from "@/components/shared/navbar-shell";
 import { TaskPostCard } from "@/components/shared/task-post-card";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
+import { TaskDetailPage } from "@/components/tasks/task-detail-page";
 import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { buildPostUrl, fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -50,7 +51,7 @@ export default async function PdfDetailPage({ params }: { params: Promise<{ slug
     "";
 
   if (!fileUrl || !/^https?:\/\//i.test(fileUrl)) {
-    notFound();
+    return <TaskDetailPage task="pdf" slug={resolvedParams.slug} />;
   }
 
   const viewerUrl = `${fileUrl}#toolbar=0&navpanes=0&scrollbar=0`;

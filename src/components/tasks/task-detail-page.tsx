@@ -123,6 +123,59 @@ const buildMapEmbedUrl = (
   return null;
 };
 
+const toneByTask: Record<TaskKey, { shell: string; panel: string; muted: string }> = {
+  pdf: {
+    shell: "bg-[linear-gradient(180deg,#fff6ee_0%,#fff0e2_58%,#fffaf6_100%)]",
+    panel: "border-[#e6bfad] bg-white/92",
+    muted: "text-[#73493d]",
+  },
+  profile: {
+    shell: "bg-[linear-gradient(180deg,#fff7ef_0%,#fffdf8_100%)]",
+    panel: "border-[#e8c9ba] bg-white/92",
+    muted: "text-[#6f4a3f]",
+  },
+  article: {
+    shell: "bg-[linear-gradient(180deg,#fff8ef_0%,#ffffff_100%)]",
+    panel: "border-[#dbc6b6] bg-white/92",
+    muted: "text-[#71584a]",
+  },
+  listing: {
+    shell: "bg-[linear-gradient(180deg,#f5faff_0%,#ffffff_100%)]",
+    panel: "border-slate-200 bg-white",
+    muted: "text-slate-600",
+  },
+  classified: {
+    shell: "bg-[linear-gradient(180deg,#fff2e7_0%,#ffffff_100%)]",
+    panel: "border-[#efcfbe] bg-white",
+    muted: "text-[#7d5440]",
+  },
+  image: {
+    shell: "bg-[linear-gradient(180deg,#0b1020_0%,#151d31_100%)]",
+    panel: "border-white/10 bg-white/5",
+    muted: "text-slate-300",
+  },
+  sbm: {
+    shell: "bg-[linear-gradient(180deg,#fff9f1_0%,#ffffff_100%)]",
+    panel: "border-[#dfcec0] bg-white",
+    muted: "text-[#71584a]",
+  },
+  social: {
+    shell: "bg-[linear-gradient(180deg,#fff8fa_0%,#ffffff_100%)]",
+    panel: "border-[#e1ccd0] bg-white",
+    muted: "text-[#7b5966]",
+  },
+  org: {
+    shell: "bg-[linear-gradient(180deg,#f5f8ff_0%,#ffffff_100%)]",
+    panel: "border-[#d5dcf0] bg-white",
+    muted: "text-[#516289]",
+  },
+  comment: {
+    shell: "bg-[linear-gradient(180deg,#fdf9f2_0%,#ffffff_100%)]",
+    panel: "border-[#ddd4c9] bg-white",
+    muted: "text-[#6f5f48]",
+  },
+};
+
 export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: string }) {
   if (TASK_DETAIL_PAGE_OVERRIDE_ENABLED) {
     return await TaskDetailPageOverride({ task, slug });
@@ -144,7 +197,11 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const isClassified = task === "classified";
   const isArticle = task === "article";
   const category = content.category || post.tags?.[0] || taskConfig?.label || task;
-  const description = content.description || post.summary || "Details coming soon.";
+  const description =
+    (typeof content.body === "string" && content.body.trim()) ||
+    content.description ||
+    post.summary ||
+    "Details coming soon.";
   const descriptionHtml = !isArticle ? formatRichHtml(description, "Details coming soon.") : "";
   const articleHtml = isArticle ? formatArticleHtml(content, post) : "";
   const articleSummary =
@@ -167,7 +224,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const images = getImageUrls(post, content);
   const mapEmbedUrl = buildMapEmbedUrl(content.latitude, content.longitude, location);
   const isBookmark = task === "sbm" || task === "social";
-  const hideSidebar = isClassified || isArticle || task === "image" || isBookmark;
+  const hideSidebar = isClassified || isArticle || task === "image" || task === "pdf" || isBookmark;
   const related = (await fetchTaskPosts(task, 6))
     .filter((item) => item.slug !== post.slug)
     .filter((item) => {
@@ -226,10 +283,11 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const schemaPayload = articleSchema ? [articleSchema, breadcrumbSchema] : breadcrumbSchema;
   const { recipe } = getFactoryState();
   const productKind = getProductKind(recipe);
+  const tone = toneByTask[task];
 
   if (productKind === "directory" && (task === "listing" || task === "classified" || task === "profile")) {
     return (
-      <div className="min-h-screen bg-[#f8fbff]">
+      <div className="bg-[#f8fbff]">
         <NavbarShell />
         <DirectoryTaskDetailPage
           task={task}
@@ -248,13 +306,13 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={tone.shell}>
       <NavbarShell />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <SchemaJsonLd data={schemaPayload} />
         <Link
           href={taskConfig?.route || "/"}
-          className="mb-6 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+          className={`mb-6 inline-flex items-center text-sm ${tone.muted} hover:text-foreground`}
         >
           ← Back to {taskConfig?.label || "posts"}
         </Link>
@@ -271,7 +329,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 <h1 className="text-4xl font-semibold leading-tight text-foreground">
                   {post.title}
                 </h1>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                <div className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-sm ${tone.muted}`}>
                   <span>By {articleAuthor}</span>
                   {articleDate ? <span>{articleDate}</span> : null}
                   <Badge variant="secondary" className="inline-flex items-center gap-1">
@@ -289,7 +347,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   </div>
                 ) : null}
                 {articleSummary ? (
-                  <p className="text-base leading-7 text-muted-foreground">{articleSummary}</p>
+                  <p className={`text-base leading-7 ${tone.muted}`}>{articleSummary}</p>
                 ) : null}
                 {images[0] ? (
                   <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-border bg-muted">
@@ -317,7 +375,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 ) : null}
 
                 <div className={cn(isClassified ? "mx-auto w-full max-w-4xl" : "mt-6")}>
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                  <div className={`flex flex-wrap items-center gap-3 text-sm ${tone.muted}`}>
                     <Badge variant="secondary" className="inline-flex items-center gap-1">
                       <Tag className="h-3.5 w-3.5" />
                       {category}
@@ -330,15 +388,15 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                     )}
                   </div>
                   <h1 className="mt-4 text-3xl font-semibold text-foreground">{post.title}</h1>
-                  <RichContent html={descriptionHtml} className="mt-3 max-w-3xl" />
+                  <RichContent html={descriptionHtml} className={cn("mt-3 max-w-3xl", tone.muted)} />
                 </div>
               </>
             ) : null}
 
             {isClassified ? (
-              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-card p-6">
+              <div className={cn("mx-auto w-full max-w-4xl rounded-2xl border p-6", tone.panel)}>
                 <h2 className="text-lg font-semibold text-foreground">Business details</h2>
-                <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+                <div className={`mt-4 space-y-3 text-sm ${tone.muted}`}>
                   {content.website && (
                     <div className="flex items-start gap-2">
                       <Globe className="mt-0.5 h-4 w-4" />
@@ -380,9 +438,9 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             ) : null}
 
             {content.highlights?.length && !isArticle ? (
-              <div className={cn("mt-8 rounded-2xl border border-border bg-card p-6", isClassified ? "mx-auto w-full max-w-4xl" : "")}>
+              <div className={cn("mt-8 rounded-2xl border p-6", tone.panel, isClassified ? "mx-auto w-full max-w-4xl" : "")}>
                 <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
-                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                <ul className={`mt-4 space-y-2 text-sm ${tone.muted}`}>
                   {content.highlights.map((item) => (
                     <li key={item}>• {item}</li>
                   ))}
@@ -391,7 +449,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             ) : null}
 
             {isClassified && mapEmbedUrl ? (
-              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-card p-4">
+              <div className={cn("mx-auto w-full max-w-4xl rounded-2xl border p-4", tone.panel)}>
                 <p className="text-sm font-semibold text-foreground">Location map</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-border">
                   <iframe
@@ -408,9 +466,9 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
 
           {!hideSidebar ? (
             <aside className="space-y-6">
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
-                <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+              <div className={cn("rounded-2xl border p-6", tone.panel)}>
+                <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
+                <div className={`mt-4 space-y-3 text-sm ${tone.muted}`}>
                   {content.website && (
                     <div className="flex items-start gap-2">
                       <Globe className="mt-0.5 h-4 w-4" />
@@ -448,61 +506,62 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                     </div>
                   )}
                 </div>
-              {content.website ? (
-                <Button className="mt-5 w-full" asChild>
-                  <a href={content.website} target="_blank" rel="noreferrer">
-                    Visit Website
-                  </a>
-                </Button>
-              ) : null}
-            </div>
-
-            {mapEmbedUrl ? (
-              <div className="rounded-2xl border border-border bg-card p-4">
-                <p className="text-sm font-semibold text-foreground">Location map</p>
-                <div className="mt-4 overflow-hidden rounded-xl border border-border">
-                  <iframe
-                    title="Business location map"
-                    src={mapEmbedUrl}
-                    className="h-56 w-full"
-                    loading="lazy"
-                  />
-                </div>
+                {content.website && task !== "profile" ? (
+                  <Button className="mt-5 w-full" asChild>
+                    <a href={content.website} target="_blank" rel="noreferrer">
+                      Visit Website
+                    </a>
+                  </Button>
+                ) : null}
               </div>
-            ) : null}
 
-          </aside>
+              {mapEmbedUrl ? (
+                <div className={cn("rounded-2xl border p-4", tone.panel)}>
+                  <p className="text-sm font-semibold text-foreground">Location map</p>
+                  <div className="mt-4 overflow-hidden rounded-xl border border-border">
+                    <iframe
+                      title="Business location map"
+                      src={mapEmbedUrl}
+                      className="h-56 w-full"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              ) : null}
+
+            </aside>
           ) : null}
         </div>
 
         <section className="mt-12">
           {related.length ? (
             <>
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">
-                More in {category}
-              </h2>
-              {taskConfig?.route && (
-                <Link
-                  href={taskConfig.route}
-                  className="text-sm text-muted-foreground hover:text-foreground"
-                >
-                  View all
-                </Link>
-              )}
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((item) => (
-                <TaskPostCard
-                  key={item.id}
-                  post={item}
-                  href={buildPostUrl(task, item.slug)}
-                />
-              ))}
-            </div>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-foreground">
+                  More in {category}
+                </h2>
+                {taskConfig?.route && (
+                  <Link
+                    href={taskConfig.route}
+                    className={`text-sm ${tone.muted} hover:text-foreground`}
+                  >
+                    View all
+                  </Link>
+                )}
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {related.map((item) => (
+                  <TaskPostCard
+                    key={item.id}
+                    post={item}
+                    href={buildPostUrl(task, item.slug)}
+                    taskKey={task}
+                  />
+                ))}
+              </div>
             </>
           ) : null}
-          <nav className="mt-6 rounded-2xl border border-border bg-card/60 p-4">
+          <nav className={cn("mt-6 rounded-2xl border p-4", tone.panel)}>
             <p className="text-sm font-semibold text-foreground">Related links</p>
             <ul className="mt-2 space-y-2 text-sm">
               {related.map((item) => (
