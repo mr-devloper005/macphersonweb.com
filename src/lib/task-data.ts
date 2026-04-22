@@ -65,7 +65,7 @@ export const fetchTaskPosts = async (
 };
 
 export const fetchTaskPostBySlug = async (task: TaskKey, slug: string) => {
-  const allowMockFallback = process.env.NEXT_PUBLIC_USE_MOCK_CONTENT === "true";
+  const allowMockFallback = true;
   const type = getTaskContentType(task);
   const resolveFromFeed = (feed: SiteFeed<SitePost> | null) =>
     feed?.posts.find((post) => post.slug === slug && getPostType(post) === type) || null;

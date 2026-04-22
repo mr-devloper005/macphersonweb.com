@@ -2,72 +2,72 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'PDF + Profile platform',
+    tagline: 'Premium PDF and Profile studio',
   },
   footer: {
-    tagline: 'PDF + Profile platform',
+    tagline: 'Curated documents. Trusted profiles.',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    badge: 'Document-first workspace',
+    title: ['A premium home for', 'PDF libraries and public profiles.'],
+    description: 'Macphersonweb combines elegant document discovery with trustworthy profile pages for teams, creators, and organizations.',
     primaryCta: {
-      label: 'Read latest posts',
-      href: '/articles',
+      label: 'Explore PDF library',
+      href: '/pdf',
     },
     secondaryCta: {
-      label: 'View profiles',
+      label: 'Browse profiles',
       href: '/profile',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
+    searchPlaceholder: 'Search documents, creators, resources, and more',
     focusLabel: 'Focus',
-    featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    featureCardBadge: 'featured surface',
+    featureCardTitle: 'The homepage highlights PDF intelligence and profile trust signals.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'Document resources and verified profile surfaces stay central while all platform tasks remain available.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
-      description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+      title: 'Premium PDF library and profile ecosystem',
+      description: 'Discover polished PDF resources and verified profile pages in a premium, editorial-quality interface.',
+      openGraphTitle: 'Premium PDF library and profile ecosystem',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Macphersonweb is built for premium document discovery and identity-led profile exploration.',
+      keywords: ['pdf library', 'profile platform', 'document discovery', 'resource publishing'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'Platform intent',
+    introTitle: 'Designed for elegant document access with human-centered identity context.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'Macphersonweb prioritizes PDF resources and profile pages so visitors can quickly find both the content and the people behind it.',
+      'The interface is intentionally premium and clean: strong hierarchy, calm spacing, and rich cards that make documents feel valuable.',
+      'All task routes remain live and discoverable, but the core journey keeps PDF and Profile experiences front and center.',
     ],
-    sideBadge: 'At a glance',
+    sideBadge: 'What stands out',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Left-rail navigation built for fast orientation.',
+      'Premium document cards with lightweight motion and clarity-first metadata.',
+      'Profile surfaces tuned for trust, identity, and reputation context.',
+      'All secondary tasks still available through direct routes and low-emphasis links.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Open PDF collection',
+      href: '/pdf',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'Open profile directory',
+      href: '/profile',
     },
   },
   cta: {
-    badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    badge: 'Start with quality',
+    title: 'Explore premium PDFs and verified profile pages through one refined interface.',
+    description: 'Macphersonweb is designed to help teams publish resources cleanly and present identity with confidence.',
     primaryCta: {
-      label: 'Read latest posts',
-      href: '/articles',
+      label: 'Explore PDFs',
+      href: '/pdf',
     },
     secondaryCta: {
-      label: 'View profiles',
+      label: 'Meet contributors',
       href: '/profile',
     },
   },
@@ -78,31 +78,31 @@ export const siteContent = {
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
   article: {
     title: 'Articles and stories',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Editorial stories connected to document resources and profile-led context.',
   },
   listing: {
     title: 'Listings and discoverable pages',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Structured listings and discoverable pages accessible within the broader platform.',
   },
   classified: {
     title: 'Classifieds and announcements',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Time-sensitive announcements and offers in a faster-scanning format.',
   },
   image: {
     title: 'Images and visual posts',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Visual posts and galleries that support richer document and profile journeys.',
   },
   profile: {
     title: 'Profiles and public pages',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Public profile surfaces designed for identity, trust, and contributor context.',
   },
   sbm: {
     title: 'Curated links and saved resources',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Curated links and collections that extend research and document discovery.',
   },
   pdf: {
     title: 'PDFs and downloadable resources',
-    description: 'A PDF + Profile site for Macphersonweb, built for clean discovery and structured publishing.',
+    description: 'Premium PDF resources and downloadable files in a refined library interface.',
   },
 }
 
