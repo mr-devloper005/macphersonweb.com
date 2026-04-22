@@ -5,7 +5,6 @@ import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { TaskPostCard } from '@/components/shared/task-post-card'
-import { ContentImage } from '@/components/shared/content-image'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { buildPageMetadata } from '@/lib/seo'
 import { fetchTaskPosts } from '@/lib/task-data'
@@ -128,35 +127,21 @@ export default async function HomePage() {
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   <Link href={leadPdf ? getTaskHref('pdf', leadPdf.slug) : (pdfTask?.route || '/pdf')} className="overflow-hidden rounded-2xl border border-[#ecd0c3] bg-white transition hover:shadow-[0_10px_24px_rgba(132,80,62,0.14)]">
-                    <div className="relative h-28">
-                      <ContentImage
-                        src={leadPdf?.media?.[0]?.url || '/placeholder.svg?height=600&width=900'}
-                        alt={leadPdf?.title || 'Latest PDF'}
-                        fill
-                        className="object-cover"
-                        intrinsicWidth={900}
-                        intrinsicHeight={600}
-                      />
-                    </div>
-                    <div className="p-3">
+                    <div className="p-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9c6658]">Latest PDF</p>
-                      <p className="mt-1 line-clamp-2 text-sm font-semibold text-[#3f261d]">{leadPdf?.title || 'No PDF yet'}</p>
+                      <p className="mt-2 text-base font-semibold text-[#3f261d]">{leadPdf?.title || 'No PDF yet'}</p>
+                      <p className="mt-2 text-sm leading-6 text-[#744b3f]">
+                        Open the most recent PDF upload and jump straight into the full document details.
+                      </p>
                     </div>
                   </Link>
                   <Link href={leadProfile ? getTaskHref('profile', leadProfile.slug) : (profileTask?.route || '/profile')} className="overflow-hidden rounded-2xl border border-[#ecd0c3] bg-white transition hover:shadow-[0_10px_24px_rgba(132,80,62,0.14)]">
-                    <div className="relative h-28">
-                      <ContentImage
-                        src={leadProfile?.media?.[0]?.url || '/placeholder.svg?height=600&width=900'}
-                        alt={leadProfile?.title || 'Latest profile'}
-                        fill
-                        className="object-cover"
-                        intrinsicWidth={900}
-                        intrinsicHeight={600}
-                      />
-                    </div>
-                    <div className="p-3">
+                    <div className="p-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9c6658]">Latest Profile</p>
-                      <p className="mt-1 line-clamp-2 text-sm font-semibold text-[#3f261d]">{leadProfile?.title || 'No profile yet'}</p>
+                      <p className="mt-2 text-base font-semibold text-[#3f261d]">{leadProfile?.title || 'No profile yet'}</p>
+                      <p className="mt-2 text-sm leading-6 text-[#744b3f]">
+                        Open the newest profile entry and view the full public identity page.
+                      </p>
                     </div>
                   </Link>
                 </div>
