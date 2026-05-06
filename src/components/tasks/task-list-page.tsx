@@ -3,6 +3,7 @@ import { ArrowRight, Building2, FileText, Image as ImageIcon, LayoutGrid, Tag, U
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { TaskListClient } from '@/components/tasks/task-list-client'
+import { PdfEnhancedClient } from '@/components/tasks/pdf-enhanced-client'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { fetchTaskPosts } from '@/lib/task-data'
 import { SITE_CONFIG, getTaskConfig, type TaskKey } from '@/lib/site-config'
@@ -269,7 +270,11 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           </section>
         ) : null}
 
-        <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
+        {task === 'pdf' ? (
+          <PdfEnhancedClient initialPosts={posts} category={normalizedCategory} />
+        ) : (
+          <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
+        )}
       </main>
       <Footer />
     </div>
