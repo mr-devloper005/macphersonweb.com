@@ -60,6 +60,7 @@ export function Navbar() {
   const enabledTasks = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled), [])
   const rankedTasks = useMemo(() => sortEmphasizedTasks(enabledTasks), [enabledTasks])
   const emphasizedTasks = rankedTasks.slice(0, 2)
+  const taskRoutes = enabledTasks.filter((task) => task.key !== 'profile')
 
   return (
     <>

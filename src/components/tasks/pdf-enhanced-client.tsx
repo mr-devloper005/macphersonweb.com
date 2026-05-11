@@ -228,10 +228,6 @@ export function PdfEnhancedClient({ initialPosts, category }: PdfEnhancedClientP
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {new Date(post.publishedAt || '').toLocaleDateString()}
-                          </span>
                           {post.content?.pages && (
                             <span className="flex items-center gap-1">
                               <FileIcon className="h-3 w-3" />
