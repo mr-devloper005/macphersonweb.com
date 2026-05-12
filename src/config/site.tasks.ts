@@ -37,7 +37,7 @@ export const siteTaskDefinitions = [
   route: '/user',
   description: 'Curated user content.',
   contentType: 'profile',
-  enabled: true,
+  enabled: false,
 },
   {
     key: 'sbm',

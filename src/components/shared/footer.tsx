@@ -5,10 +5,11 @@ import { siteContent } from '@/config/site.content'
 
 const companyLinks = [
   { name: 'About', href: '/about' },
+  { name: 'Contact Us', href: '/contact' },
 ]
 
 export function Footer() {
-  const taskRoutes = SITE_CONFIG.tasks.filter((task) => task.key === 'pdf' || task.key === 'profile')
+  const taskRoutes = SITE_CONFIG.tasks.filter((task) => task.key === 'pdf')
 
   return (
     <footer className="border-t border-[#ebcab9] bg-[linear-gradient(180deg,#fffaf2_0%,#fff0e1_100%)] text-[#3b241c]">
